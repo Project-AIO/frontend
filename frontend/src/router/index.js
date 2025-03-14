@@ -14,7 +14,7 @@ import DashboardView from '../views/DashboardView.vue'
 const DashboardUsers = () => import('../views/DashboardUsers.vue')
 const DashboardAccount = () => import('../views/DashboardAccount.vue')
 const DashboardProject = () => import('../views/DashboardProject.vue')
-// const DashboardAdmin = () => import('../views/DashboardAdmin.vue')
+const DashboardAdmin = () => import('../views/DashboardAdmin.vue')
 // const DashboardKldg = () => import('../views/DashboardKldg.vue')
 // const KnowledgeDocs = () => import('../views/KnowledgeDocs.vue')
 // const KnowledgeFdbk = () => import('../views/KnowledgeFdbk.vue')
@@ -41,7 +41,7 @@ const routes = [
                 children: [
                 { path: 'account', component: DashboardAccount,
                   children: [
-                    // { path: 'admin', component: DashboardAdmin, meta: { title: '관리자 계정 관리' } },
+                    { path: 'admin', component: DashboardAdmin, meta: { title: '관리자 계정 관리' } },
                     { path: 'users', component: DashboardUsers, meta: { title: '사용자 계정 관리' } },
                     { path: '', redirect: '/dashboard/setting/account/users' }
                   ]
@@ -58,30 +58,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
-
-// // 서버에 인증 상태 확인 요청
-// const checkAuth = async () => {
-//     try {
-//         const response = await api.get('/auth-check', { withCredentials: true })
-//         return response.data.authenticated
-//     } catch {
-//         return false
-//     }
-// }
-//
-// // 네비게이션 가드에서 인증 여부 확인 후 리다이렉트 처리
-// router.beforeEach(async (to, from, next) => {
-//     const isAuthenticated = await checkAuth()
-//
-//     if (to.path === '/login' && isAuthenticated) {
-//         next('/dashboard/charts') // 로그인된 상태에서 /login 접근 시 대시보드로 이동
-//     } else if (to.meta.requiresAuth && !isAuthenticated) {
-//         next('/login') // 보호된 페이지 접근 시 로그인 필요
-//     } else {
-//         next() // 정상적으로 페이지 이동
-//     }
-// })
-
 
 // 네비게이션 가드 추가
 router.beforeEach((to, from, next) => {

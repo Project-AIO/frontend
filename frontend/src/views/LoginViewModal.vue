@@ -34,7 +34,7 @@ const license_key = ref('')
 const errorMessage = ref('')
 
 // 입력 버튼: 입력한 라이센스 키와 accountInfo를 백엔드에 전송
-const submitLicense = async () => {
+async function submitLicense() {
   if (!license_key.value) {
     errorMessage.value = '라이센스 키를 입력하세요.'
     return

@@ -58,7 +58,7 @@ const router = useRouter()
 const showLicenseModal = ref(false)
 const accountInfo = ref(null)
 
-const login = async () => {
+async function login() {
   errorMessage.value = ''
   try {
     await adminStore.userLogin({

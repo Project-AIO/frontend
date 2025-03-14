@@ -22,7 +22,7 @@ const emits = defineEmits(['created', 'cancel'])
 const projectStore = useProjectStore()
 const projectName = ref('')
 
-const addProject = async () => {
+async function addProject() {
   if (!projectName.value.trim()) {
     alert('프로젝트 이름을 입력해주세요.')
     return
