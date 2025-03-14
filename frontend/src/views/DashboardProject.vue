@@ -103,10 +103,10 @@ const showNewProjectModal = ref(false)
 
 // 사용자 테이블 관련 상태
 const userList = ref([])
-const selectedAccountIds = ref([])            // 현재 페이지 체크된 계정 ID 목록
-const initialProjectAccountIds = ref([])        // 현재 프로젝트에 귀속된 계정 ID 목록
+const selectedAccountIds = ref([])
+const initialProjectAccountIds = ref([])
 const currentPage = ref(1)
-const pageLimit = 20                          // 한 페이지당 계정 수
+const pageLimit = 20
 
 // 모든 체크박스 체크 여부 (현재 페이지 기준)
 const allChecked = computed(() =>

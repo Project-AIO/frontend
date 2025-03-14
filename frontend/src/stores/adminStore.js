@@ -53,8 +53,11 @@ export const useAdminStore = defineStore('admin',()=>{
         } catch (error){
             throw error
         }
-    }   
-    
+    }
+
+    async function changePw() {}
+
+    async function changeLicenseKey() {}
     // 로그아웃
     async function userLogout() {
         try {
@@ -67,13 +70,14 @@ export const useAdminStore = defineStore('admin',()=>{
             reset()
             projectStore.reset()
             userStore.reset()
-            router.push('/login')
+            sessionStorage.clear()
+            await router.push(`/login`)
         } catch (error) {
             console.error('Logout error:', error);
         }
     }
 
-    return { admin_id, accessToken, refreshToken, userLogin, tokenRefresh, userLogout }
+    return { admin_id, accessToken, refreshToken, userLogin, tokenRefresh, changePw, changeLicenseKey, userLogout }
 },{
     persist: {
         key: 'admin',
