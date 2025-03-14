@@ -15,26 +15,26 @@ const DashboardUsers = () => import('../views/DashboardUsers.vue')
 const DashboardAccount = () => import('../views/DashboardAccount.vue')
 const DashboardProject = () => import('../views/DashboardProject.vue')
 const DashboardAdmin = () => import('../views/DashboardAdmin.vue')
-// const DashboardKldg = () => import('../views/DashboardKldg.vue')
-// const KnowledgeDocs = () => import('../views/KnowledgeDocs.vue')
-// const KnowledgeFdbk = () => import('../views/KnowledgeFdbk.vue')
-// const KnowledgeSDict = () => import('../views/KnowledgeSDict.vue')
-// const KnowledgeHDict = () => import('../views/KnowledgeHDict.vue')
+const KnowledgeData = () => import('../views/KnowledgeData.vue')
+const KnowledgeFdbk = () => import('../views/KnowledgeFdbk.vue')
+// const KnowledgeDict = () => import('../views/KnowledgeSDict.vue')
 
 const routes = [
     { path: '/login', component: LoginView, meta: { title: '로그인' } },
     { path: '/dashboard', component: DashboardView,
       children: [
             // { path: 'charts', component: DashboardCharts, meta: { title: 'Dashboard'} },
-            // { path: 'kldg', component: DashboardKldg, meta: { title: 'Knowledge' },
-            //     children: [
-            //         { path: 'documents', component: KnowledgeDocs },
-            //         { path: 'feedback', component: KnowledgeFdbk },
-            //         { path: 'synonym', component: KnowledgeSDict },
-            //         { path: 'homonym', component: KnowledgeHDict },
-            //         { path: '', redirect: '/dashboard/kldg/documents' }
-            //     ]
-            // },
+            { path: 'knowledge',
+                children: [
+                    { path: 'dataset', component: KnowledgeData },
+                    // { path: 'presets', component: KnowledgePset },
+                    // { path: 'dictionary', component: KnowledgeDict },
+                    // { path: 'permission', component: KnowledgePmsn },
+                    { path: 'feedback', component: KnowledgeFdbk },
+                    // { path: 'config', component: KnowledgeCfig },
+                    { path: '', redirect: '/dashboard/knowledge/dataset' }
+                ]
+            },
             // { path: 'ask', component: DashboardAsk, meta: { title: 'Playground'} },
             // { path: 'analytics', component: DashboardAnls, meta: { title: 'Analytics' } },
             { path: 'setting',

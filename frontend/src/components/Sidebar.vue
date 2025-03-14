@@ -3,6 +3,76 @@
     <ul>
       <li>
         <div class="dropdown">
+          <button class="dropdown-button" @click="toggleKnowledgeDropdown">
+            Knowledge
+            <span class="dropdown-symbol">{{ knowledgeOpen ? '-' : '+' }}</span>
+          </button>
+          <ul v-if="knowledgeOpen" class="dropdown-menu">
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/dataset' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Dataset
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/presets' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Presets
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/dictionary' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Dictionary
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/permission' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Permission
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/feedback' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Feedback
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                  :to="isProjectSelected ? '/dashboard/knowledge/config' : '#'"
+                  :class="{ 'disabled-link': !isProjectSelected }"
+                  @click="checkProjectSelected($event)"
+                  active-class="active"
+              >
+                Configuration
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="dropdown">
           <button class="dropdown-button" @click="toggleSettingsDropdown">
             Settings
             <span class="dropdown-symbol">{{ settingsOpen ? '-' : '+' }}</span>
@@ -46,10 +116,17 @@ const projectStore = useProjectStore()
 const isProjectSelected = computed(() => !!projectStore.selectedProject.value)
 
 // 드롭다운 상태 관리
+const knowledgeOpen = ref(false)
+function toggleKnowledgeDropdown() {
+  knowledgeOpen.value = !knowledgeOpen.value
+}
+
 const settingsOpen = ref(false)
 function toggleSettingsDropdown() {
   settingsOpen.value = !settingsOpen.value
 }
+
+
 
 // 프로젝트 선택 확인 후 링크 이동 방지
 function checkProjectSelected(event) {
