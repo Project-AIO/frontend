@@ -21,6 +21,12 @@ export const licenseReq = (licenseInfo) => {
     return apiClient.post('/license', licenseInfo)
 }
 
+// 관리자 비밀번호 변경
+export const changePassword = (credentials) => {
+    return apiClient.post('/password-change', credentials)
+}
+
+
 // 관리자 로그아웃
 export const logout = (credentials) => {
     return apiClient.post('/logout', credentials)

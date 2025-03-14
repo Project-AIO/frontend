@@ -1,7 +1,7 @@
 // 관리자 계정 데이터스토어
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import {login, logout, authRefresh, licenseReq} from '../api/admin.js'
+import {login, logout, authRefresh, licenseReq, changePassword} from '../api/admin.js'
 import router from '../router';
 import { useProjectStore } from "./projectStore.js";
 import { useUserStore } from "./userStore.js";
@@ -67,7 +67,18 @@ export const useAdminStore = defineStore('admin',()=>{
         }
     }
 
-    async function changePw() {}
+    async function changePw(newPassword) {
+        try{
+            const credentials = {
+                admin_id: admin_id.value,
+                password: newPassword
+            }
+            await changePassword(credentials)
+        } catch (error) {
+            throw error
+        }
+    }
+
 
     async function userLogout() {
         try {
