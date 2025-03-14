@@ -40,17 +40,6 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    // 사용자 계정 수정
-    // async function updateUser(accountID, updateInfo) {
-    //     try {
-    //         const response = await updateAccount(accountID, updateInfo);
-    //         await fetchUsers(1)
-    //         return response
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-
     // 사용자 계정 삭제
     async function deleteUser(accountID) {
         try {

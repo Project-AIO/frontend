@@ -53,6 +53,12 @@ async function changePassword() {
     return
   }
   // 비밀번호 변경 로직 추가
+  try {
+    const response = await adminStore.changePw(newPassword.value)
+    alert(response.data.message)
+  } catch (error) {
+    alert(error.response.data.message)
+  }
 }
 // 입력 버튼: 입력한 라이센스 키와 accountInfo를 백엔드에 전송
 async function changeLicense() {

@@ -73,7 +73,7 @@ export const useAdminStore = defineStore('admin',()=>{
                 admin_id: admin_id.value,
                 password: newPassword
             }
-            await changePassword(credentials)
+            return await changePassword(credentials)
         } catch (error) {
             throw error
         }
