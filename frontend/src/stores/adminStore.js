@@ -1,7 +1,7 @@
 // 관리자 계정 데이터스토어
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { login, logout, authRefresh } from '../api/admin.js'
+import {login, logout, authRefresh, licenseReq} from '../api/admin.js'
 import router from '../router';
 import { useProjectStore } from "./projectStore.js";
 import { useUserStore } from "./userStore.js";
@@ -28,8 +28,8 @@ export const useAdminStore = defineStore('admin',()=>{
     async function userLogin(credentials) {
         try{
             admin_id.value = credentials.admin_id
-            // pw.value = credentials.pw
             const response = await login(credentials)
+            // pw.value = credentials.pw
             accessToken.value = response.data.accessToken
             refreshToken.value = response.data.refreshToken
         } catch (error){
@@ -55,10 +55,20 @@ export const useAdminStore = defineStore('admin',()=>{
         }
     }
 
+    async function licenseRequest(licenseKey) {
+        try {
+            const licenseInfo = {
+                admin_id: admin_id.value,
+                license_key: licenseKey
+            }
+            return await licenseReq(licenseInfo);
+        } catch (error) {
+            throw error
+        }
+    }
+
     async function changePw() {}
 
-    async function changeLicenseKey() {}
-    // 로그아웃
     async function userLogout() {
         try {
             let request = {
@@ -77,7 +87,7 @@ export const useAdminStore = defineStore('admin',()=>{
         }
     }
 
-    return { admin_id, accessToken, refreshToken, userLogin, tokenRefresh, changePw, changeLicenseKey, userLogout }
+    return { admin_id, accessToken, refreshToken, userLogin, tokenRefresh, changePw, licenseRequest, userLogout }
 },{
     persist: {
         key: 'admin',

@@ -42,7 +42,7 @@
         <td>{{ account.account_id }}</td>
         <td>{{ account.name }}</td>
         <td>{{ account.role }}</td>
-        <td>{{ account.expire_dt }}</td>
+        <td>{{ account.expired_time }}</td>
         <td>
           <button @click="deleteAccount(account)">삭제</button>
         </td>
@@ -60,7 +60,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '../api/index.js'
 import { useUserStore } from "../stores/userStore.js";
 import { useAdminStore } from "../stores/adminStore.js";
 

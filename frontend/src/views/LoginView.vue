@@ -92,6 +92,7 @@ async function login() {
 // 모달에서 licenseResult 이벤트 처리
 const handleLicenseResult = async (result) => {
   showLicenseModal.value = false
+  console.log('result:', result)
   if (result === true) {
     // 라이센스 등록 성공 후, 자동 재로그인 시도
     try {

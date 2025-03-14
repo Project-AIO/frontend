@@ -17,7 +17,7 @@ export const authRefresh = (credToken) => {
 }
 
 // 관리자 계정 라이센스 키 검증
-export const licenseCheck = (licenseInfo) => {
+export const licenseReq = (licenseInfo) => {
     return apiClient.post('/license', licenseInfo)
 }
 

@@ -45,6 +45,7 @@ const adminStore = useAdminStore();
 
 const newPassword = ref('')
 const newLicenseKey = ref('')
+const errorMessage = ref('')
 
 async function changePassword() {
   if (!newPassword.value) {
@@ -53,13 +54,24 @@ async function changePassword() {
   }
   // 비밀번호 변경 로직 추가
 }
-
+// 입력 버튼: 입력한 라이센스 키와 accountInfo를 백엔드에 전송
 async function changeLicense() {
   if (!newLicenseKey.value) {
     alert('신규 라이센스 키를 입력해주세요.')
     return
   }
-  // 라이센스 키 변경 로직 추가
+
+  try {
+    const response = await adminStore.licenseRequest(newLicenseKey.value)
+    if (response.data.valid) {
+      // '라이센스 키가 변경되었습니다' 메세지 띄우기
+      alert('라이센스 키가 변경되었습니다.')
+    } else {
+      alert(response.data.message)
+    }
+  } catch (error) {
+    alert(error.response.data.message)
+  }
 }
 </script>
 

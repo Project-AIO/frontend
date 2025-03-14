@@ -20,7 +20,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import { licenseCheck } from "../api/admin.js"
+import { useAdminStore } from "../stores/adminStore.js";
 
 const props = defineProps({
   accountInfo: {
@@ -29,6 +29,8 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['licenseResult'])
+
+const adminStore = useAdminStore()
 
 const license_key = ref('')
 const errorMessage = ref('')
@@ -40,12 +42,8 @@ async function submitLicense() {
     return
   }
 
-  const licenseInfo = {
-    admin_id: props.accountInfo.admin_id,
-    license_key: license_key.value,
-  }
   try {
-    const response = await licenseCheck(licenseInfo)
+    const response = await adminStore.licenseRequest(license_key.value)
     if (response.data.valid) {
       emit('licenseResult', true)
     } else {
@@ -59,6 +57,7 @@ async function submitLicense() {
 }
 
 const cancelLicense = () => {
+  adminStore.admin_id = null
   emit('licenseResult', null)
 }
 </script>
