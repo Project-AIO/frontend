@@ -1,8 +1,7 @@
 <template>
-  <div v-if="selectedProjectId" class="knowledge-docs">
+  <div v-if="projectStore.selectedProject.value.project_id" class="knowledge-docs">
     <div class="top-bar">
       <button class="folder-btn" @click="openNewFolderModal">폴더 생성</button>
-      <button class="filter-btn" @click="onFilterClick">검색 필터</button>
     </div>
 
     <!-- 폴더 드롭다운 영역 -->
@@ -11,6 +10,10 @@
       <span class="selected-folder">
         {{ selectedFolder ? selectedFolder.name : '선택된 폴더 없음' }}
       </span>
+      <div class="right-buttons">
+        <button class="filter-btn">검색 필터</button>
+        <button class="add-doc-btn">문서 추가</button>
+      </div>
     </div>
     <!-- 드롭다운 리스트 -->
     <ul v-if="showFolderDropdown" class="folder-dropdown-list">
@@ -22,13 +25,7 @@
 
     <!-- 컨트롤 영역: 좌측에 '권한'과 '문서 추가' 버튼, 우측에 '검색 필터' 버튼 -->
     <div class="control-row">
-      <div class="left-buttons">
-        <button class="permission-btn">권한</button>
-        <button class="add-doc-btn">문서 추가</button>
-      </div>
-      <div class="right-buttons">
-        <button class="filter-btn">검색 필터</button>
-      </div>
+
     </div>
 
     <!-- 문서 테이블 -->
@@ -36,12 +33,12 @@
       <thead>
       <tr>
         <th>Source Name</th>
-        <th>문서명</th>
+        <th>File Name</th>
         <th>Pages</th>
-        <th>상태</th>
-        <th>Preset</th>
-        <th>접근 권한</th>
+        <th>Enable</th>
+        <th>Status</th>
         <th>Upload Date</th>
+        <th>File Size</th>
         <th></th>
       </tr>
       </thead>
@@ -73,7 +70,7 @@
 
 <script setup>
 import { ref, defineProps, onMounted, watch } from 'vue'
-import api from '../api/index.js'
+import { useProjectStore } from "../stores/projectStore.js";
 import NewFolderModal from './NewFolderModal.vue'
 
 const props = defineProps({
@@ -82,6 +79,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const projectStore = useProjectStore()
 
 // 폴더 생성 모달 제어
 const showNewFolderModal = ref(false)
