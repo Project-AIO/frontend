@@ -5,25 +5,31 @@
       <span class="account-name">
         {{ projectStore.selectedProject?.value?.project_name || '프로젝트 없음' }}
       </span>
-      <button class="logout" @click="logout">
-        <img class="logout-img" :src="logoutImg" alt="Logout Image" />
+      <button class="profile-button" @click="navigateToAdmin">
+        {{ adminInitials }}
       </button>
     </div>
   </header>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useProjectStore } from "../stores/projectStore.js"
 import { useAdminStore } from "../stores/adminStore.js"
 
 const projectStore = useProjectStore()
 const adminStore = useAdminStore()
+const router = useRouter()
 
-// logout 함수
-const logout = async () => {
-  projectStore.selectedProject.value = null
-  await adminStore.userLogout()
-  sessionStorage.clear()
+// adminStore.admin_id의 첫 두 글자를 계산합니다.
+const adminInitials = computed(() =>
+    adminStore.admin_id ? adminStore.admin_id.slice(0, 2) : ''
+)
+
+// 버튼 클릭 시 관리자 설정 페이지로 이동
+function navigateToAdmin() {
+  router.push("/dashboard/setting/account/admin")
 }
 </script>
 
@@ -57,20 +63,18 @@ const logout = async () => {
   margin-right: 0.5rem;
 }
 
-.logout {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-}
-
-.logout-img {
+.profile-button {
   width: 33px;
   height: 33px;
-  object-fit: cover;
   border-radius: 50%;
-  display: block;
-  margin-right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  /* 텍스트 중앙 정렬을 위한 약간의 여백 */
+  padding: 0;
 }
 </style>
