@@ -36,22 +36,19 @@ export const deleteAccount = (accountId) => {
 //     })
 // }
 
-// 선택 계정 프로젝트 접근 허용
+// 프로젝트 계정 추가
 export const addProjectAccount = (projectId, accountList) => {
-    return apiClient.post('/project-account', {
-        params: {
-            project_id: projectId,
-            accountList: accountList
-        }
-    })
+    return apiClient.post(
+        '/project-account',
+        { account_list: accountList },
+        { params: { project_id: projectId } }
+    );
 }
 
-// 선택 계쩡 프로젝트 접근 허용 해제
+// 프로젝트 계정 삭제
 export const deleteProjectAccount = (projectId, accountList) => {
     return apiClient.delete('/project-account', {
-        params: {
-            project_id: projectId,
-            accountList: accountList
-        }
-    })
+        data: { account_list: accountList },
+        params: { project_id: projectId }
+    });
 }

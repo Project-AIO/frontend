@@ -184,15 +184,26 @@ async function loadUsers() {
 }
 
 // 선택된 프로젝트에 귀속된 계정 조회 및 체크박스 초기화
+// async function loadProjectUsers() {
+//   if (!projectStore.selectedProject.value || !projectStore.selectedProject.value.project_id) return
+//   try {
+//     await userStore.fetchProjectUsers(projectStore.selectedProject.value.project_id, currentPage.value)
+//     updateCheckboxSelection()
+//   } catch (error) {
+//     console.error('Error fetching project users:', error)
+//   }
+// }
 async function loadProjectUsers() {
-  if (!projectStore.selectedProject.value || !projectStore.selectedProject.value.project_id) return
+  if (!projectStore.selectedProject.value || !projectStore.selectedProject.value.project_id) return;
   try {
-    await userStore.fetchProjectUsers(projectStore.selectedProject.value.project_id, currentPage.value)
-    updateCheckboxSelection()
+    await userStore.fetchProjectUsers(projectStore.selectedProject.value.project_id, currentPage.value);
+    updateCheckboxSelection();
+    initialProjectAccountIds.value = [...selectedAccountIds.value];
   } catch (error) {
-    console.error('Error fetching project users:', error)
+    console.error('Error fetching project users:', error);
   }
 }
+
 
 // 현재 페이지의 사용자 중, 해당 프로젝트에 귀속된 계정을 체크 상태로 업데이트
 function updateCheckboxSelection() {
@@ -202,42 +213,29 @@ function updateCheckboxSelection() {
 }
 
 // 저장 버튼 클릭 시, 체크박스 변경 내역을 기반으로 프로젝트 계정 추가/삭제 처리
-// async function saveProjectAccounts() {
-//   if (!projectStore.selectedProject.value || !projectStore.selectedProject.value.project_id) return
-//   const projectId = projectStore.selectedProject.value.project_id
-//   const currentPageAccountIds = userStore.userList.map(acc => acc.account_id)
-//   const accountsToAdd = selectedAccountIds.value.filter(
-//       id => !initialProjectAccountIds.value.includes(id)
-//   )
-//   const accountsToDelete = currentPageAccountIds.filter(
-//       id => initialProjectAccountIds.value.includes(id) && !selectedAccountIds.value.includes(id)
-//   )
-//   try {
-//     if (accountsToAdd.length > 0) {
-//       await userStore.addProjectUser(projectId, accountsToAdd)
-//     }
-//     if (accountsToDelete.length > 0) {
-//       await userStore.deleteProjectUser(projectId, accountsToDelete)
-//     }
-//     // 변경 후 최신 상태 반영
-//     await loadProjectUsers()
-//   } catch (error) {
-//     console.error('Error saving project accounts:', error)
-//   }
-// }
 async function saveProjectAccounts() {
   if (!projectStore.selectedProject.value || !projectStore.selectedProject.value.project_id) return;
   const projectId = projectStore.selectedProject.value.project_id;
 
-  // 기존에 저장된 프로젝트 귀속 계정 ID 목록은 userStore.projectAccountIds로 관리
-  const initialSet = new Set(userStore.projectAccountIds);
-  // 현재 체크박스 선택 상태 배열
+  // initialProjectAccountIds는 현재 페이지 로드 시 귀속된 계정 목록(ref 변수)
+  const initialSet = new Set(initialProjectAccountIds.value);
   const currentSet = new Set(selectedAccountIds.value);
 
-  // 추가할 계정: 현재 선택에는 있으나, 기존에는 없던 계정들
+  // 현재 페이지에서 추가할 계정: 현재 선택에는 있으나 초기에는 없던 계정들
   const accountsToAdd = [...currentSet].filter(id => !initialSet.has(id));
-  // 삭제할 계정: 기존에는 있었으나, 현재 선택에는 없는 계정들
+  // 현재 페이지에서 삭제할 계정: 초기에는 있었으나 현재 선택에는 없는 계정들
   const accountsToDelete = [...initialSet].filter(id => !currentSet.has(id));
+
+  // 변경 사항이 전혀 없다면 바로 알림 후 종료
+  if (accountsToAdd.length === 0 && accountsToDelete.length === 0) {
+    alert('변경 사항이 없습니다.');
+    return;
+  }
+
+  // 변경 사항이 있을 경우 확인 팝업
+  if (!confirm('변경 사항을 저장하시겠습니까?')) {
+    return;
+  }
 
   try {
     if (accountsToAdd.length > 0) {
@@ -246,7 +244,9 @@ async function saveProjectAccounts() {
     if (accountsToDelete.length > 0) {
       await userStore.deleteProjectUser(projectId, accountsToDelete);
     }
-    // 변경 후 최신 상태 재조회 (이 과정에서 userStore.projectAccountIds가 업데이트 되어야 함)
+
+    alert('저장되었습니다.');
+    currentPage.value = 1
     await loadProjectUsers();
   } catch (error) {
     console.error('Error saving project accounts:', error);
