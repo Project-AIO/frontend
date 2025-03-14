@@ -2,7 +2,7 @@ import axios from 'axios';
 import {useAdminStore} from "../stores/adminStore.js";
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:8090',
     timeout: 5000,
 })
 
