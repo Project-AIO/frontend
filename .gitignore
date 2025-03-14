@@ -1,0 +1,8 @@
+# .idea 폴더 무시
+.idea/
+
+# 필요하다면 frontend 내부도 무시 규칙 추가
+frontend/.vscode/
+frontend/public/
+
+
